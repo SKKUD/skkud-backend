@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
 const app = express();
 
 app.use(express.json());
-const userRouter = require('./controllers/user');
-app.use('/user', userRouter);
+app.use(cookieParser());
+const userRouter = require('./routes/user');
+
+app.use('/users', userRouter);
 
 mongoose
   .connect(process.env.MONGO_URI, {
