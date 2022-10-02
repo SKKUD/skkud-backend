@@ -6,6 +6,8 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
+const userRouter = require('./controllers/user');
+app.use('/user', userRouter);
 
 mongoose
   .connect(process.env.MONGO_URI, {
