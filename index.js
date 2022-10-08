@@ -8,9 +8,12 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
 const userRouter = require('./routes/user');
+const postRouter = require('./routes/post');
 
 app.use('/users', userRouter);
+app.use('/posts', postRouter);
 
 mongoose
   .connect(process.env.MONGO_URI, {
