@@ -35,19 +35,18 @@ const getOnePost = (req, res) => {
 };
 
 const createPost = (req, res) => {
-  const url = req.protocol + '://' + req.get('host')
-  var post;
-  if(req.file){
+  const url = `${req.protocol}://${req.get('host')}`;
+  let post;
+  if (req.file) {
     post = new Post({
-      title : req.body.title,
-      body : req.body.body,
-      img : url + '/public/' + req.file.filename 
+      title: req.body.title,
+      body: req.body.body,
+      img: `${url}/public/${req.file.filename}`,
     });
-  }
-  else{
+  } else {
     post = new Post({
-      title : req.body.title,
-      body : req.body.body,
+      title: req.body.title,
+      body: req.body.body,
     });
   }
 

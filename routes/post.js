@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { upload } = require('../middlewares/files');
 
@@ -16,7 +15,7 @@ router.get('/', getAllPosts);
 router.get('/:id', getOnePost);
 
 // create
-router.post('/', upload.single('profileImg'),createPost);
+router.post('/', upload.single('profileImg'), createPost);
 
 // update
 router.patch('/:id', updatePost);
