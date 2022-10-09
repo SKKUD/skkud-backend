@@ -38,10 +38,12 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { userID, username, passwd } = req.body;
+  const { userID, username, usernameEng, email, passwd } = req.body;
   const user = new User({
     userID: userID,
     username: username,
+    usernameEng: usernameEng,
+    email: email,
     passwd: passwd,
   });
   user
