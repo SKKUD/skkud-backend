@@ -35,8 +35,6 @@ const getOnePost = (req, res) => {
 };
 
 const createPost = (req, res) => {
-
-
   const url = req.protocol + '://' + req.get('host')
   var post;
   if(req.file){
