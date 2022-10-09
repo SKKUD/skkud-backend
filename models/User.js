@@ -7,7 +7,17 @@ const userSchema = mongoose.Schema({
   // 1
   userID: { type: String, required: true },
   username: { type: String, required: true },
+  usernameEng: { type: String, required: true },
   passwd: { type: String, required: true },
+  bio: { type: String },
+  track: {
+    type: String,
+    enum: ['design', 'backend', 'frontend'],
+    default: 'design',
+  },
+  email: { type: String, required: true, match: /.+@.+\..+/ },
+  insta: { type: String },
+  otherLinks: [String],
   createdAt: { type: Date, default: Date.now }, // 2
   updatedAt: { type: Date },
   token: { type: String },
