@@ -1,4 +1,6 @@
 const Post = require('../models/Post');
+const File = require('../models/File'); 
+const multer = require('multer'); 
 
 const getAllPosts = (req, res) => {
   Post.find({})
@@ -35,7 +37,15 @@ const getOnePost = (req, res) => {
 };
 
 const createPost = (req, res) => {
+
+  const attachment = req.file?File.createNewInstance(req.file, req.user._id):undefined; 
+  
   const post = new Post(req.body);
+
+  if(attachment){                 // 4-4
+    attachment.postId = post._id; // 4-4
+    attachment.save();            
+  }
   post
     .save()
     .then((data) =>
