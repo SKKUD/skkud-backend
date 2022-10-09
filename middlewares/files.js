@@ -22,9 +22,9 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     // 말 그대로 fileFilter
     if (
-      file.mimetype == 'image/png' ||
-      file.mimetype == 'image/jpg' ||
-      file.mimetype == 'image/jpeg'
+      file.mimetype === 'image/png' ||
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
     ) {
       cb(null, true);
     } else {
