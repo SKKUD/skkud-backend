@@ -1,7 +1,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-
+//const { upload } = require('./middlewares/files');
 
 const cookieParser = require('cookie-parser');
 
@@ -15,6 +15,7 @@ app.use(cookieParser());
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 
+//app.use(upload.array());
 app.use('/public', express.static('public'));
 app.use('/users', userRouter);
 app.use('/posts', postRouter);

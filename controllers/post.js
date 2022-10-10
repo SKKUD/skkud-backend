@@ -36,17 +36,26 @@ const getOnePost = (req, res) => {
 
 const createPost = (req, res) => {
   const url = `${req.protocol}://${req.get('host')}`;
+  console.log(url);
   let post;
-  if (req.file) {
+  if (req.files) {
+    let urlArr = new Array();
+    for (let i = 0; i < req.files.length; i++) {
+      urlArr.push(`${url}/public/${req.files[i].filename}`);
+      console.log(urlArr[i]);
+    }
     post = new Post({
       title: req.body.title,
       body: req.body.body,
-      img: `${url}/public/${req.file.filename}`,
+      tags: req.body.tags,
+      mainimage: urlArr[0],
+      images: urlArr, 
     });
   } else {
     post = new Post({
       title: req.body.title,
       body: req.body.body,
+      tags: req.body.tags,
     });
   }
 
