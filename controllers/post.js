@@ -39,8 +39,8 @@ const createPost = (req, res) => {
   console.log(url);
   let post;
   if (req.files) {
-    let urlArr = new Array();
-    for (let i = 0; i < req.files.length; i++) {
+    const urlArr = [];
+    for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
       console.log(urlArr[i]);
     }
@@ -49,7 +49,7 @@ const createPost = (req, res) => {
       body: req.body.body,
       tags: req.body.tags,
       mainimage: urlArr[0],
-      images: urlArr, 
+      images: urlArr,
     });
   } else {
     post = new Post({

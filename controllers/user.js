@@ -130,7 +130,6 @@ const login = (req, res) => {
 };
 
 const logout = (req, res) => {
-  console.log(req.user);
   User.findOneAndUpdate({ userID: req.user.userID }, { token: '' }, (err) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({

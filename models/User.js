@@ -15,7 +15,12 @@ const userSchema = mongoose.Schema({
     enum: ['design', 'backend', 'frontend'],
     default: 'design',
   },
-  email: { type: String, required: true, match: /.+@.+\..+/ },
+  email: {
+    type: String,
+    required: true,
+    match: /.+@.+\..+/,
+    message: '이메일 형식이 알맞지 않습니다',
+  },
   insta: { type: String },
   otherLinks: [String],
   createdAt: { type: Date, default: Date.now }, // 2
