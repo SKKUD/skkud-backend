@@ -1,4 +1,5 @@
 const express = require('express');
+const { upload } = require('../middlewares/files');
 
 const router = express.Router();
 const {
@@ -14,7 +15,7 @@ router.get('/', getAllPosts);
 router.get('/:id', getOnePost);
 
 // create
-router.post('/', createPost);
+router.post('/', upload.single('profileImg'), createPost);
 
 // update
 router.patch('/:id', updatePost);
