@@ -15,7 +15,7 @@ router.get('/', getAllPosts);
 router.get('/:id', getOnePost);
 
 // create
-router.post('/', upload.single('profileImg'), createPost);
+router.post('/', upload.any('images'), createPost); //array 사용시 오류나서 걍  any로 씀
 
 // update
 router.patch('/:id', updatePost);
