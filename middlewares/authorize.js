@@ -1,6 +1,6 @@
 const User = require('../models/User');
 
-const auth = (req, res, next) => {
+const authorize = (req, res, next) => {
   //인증 처리를 할 것임
   //클라이언트 쿠키에서 토큰을 가져온다.
   const token = req.cookies.x_auth;
@@ -14,4 +14,4 @@ const auth = (req, res, next) => {
   });
 };
 
-module.exports = { auth };
+module.exports = { authorize };
