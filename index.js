@@ -1,15 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
-//const { upload } = require('./middlewares/files');
 
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
 
 const app = express();
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
