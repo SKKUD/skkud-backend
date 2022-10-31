@@ -27,6 +27,7 @@ const userSchema = mongoose.Schema({
   updatedAt: { type: Date },
   token: { type: String },
   tokenExp: { type: Number },
+  image: { type: String },
 });
 
 //middlewares
