@@ -8,8 +8,13 @@ const userSchema = mongoose.Schema({
   userID: { type: String, required: true },
   username: { type: String, required: true },
   usernameEng: { type: String, required: true },
+  role: {
+    type: String,
+    required: true,
+    enum: ['Level1', 'Level2', 'Level3'],
+  },
   passwd: { type: String, required: true },
-  bio: { type: String },
+  bio: { type: String }, //한줄소개
   track: {
     type: String,
     enum: ['design', 'backend', 'frontend'],
