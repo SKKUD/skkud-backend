@@ -17,5 +17,5 @@ const studyGroupSchema = mongoose.Schema({
   },
 });
 
-const StudyGroup = mongoose.Model('StudyGroup', studyGroupSchema);
+const StudyGroup = mongoose.model('StudyGroup', studyGroupSchema);
 module.exports = StudyGroup;
