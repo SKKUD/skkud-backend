@@ -58,6 +58,7 @@ const createUser = (req, res) => {
       usernameEng: req.body.usernameEng,
       email: req.body.email,
       passwd: req.body.passwd,
+      role: req.body.role,
     });
   }
   user
