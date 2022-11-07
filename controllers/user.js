@@ -38,14 +38,28 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { userID, username, usernameEng, email, passwd } = req.body;
-  const user = new User({
-    userID: userID,
-    username: username,
-    usernameEng: usernameEng,
-    email: email,
-    passwd: passwd,
-  });
+  const url = `${req.protocol}://${req.get('host')}`;
+  let user;
+  if (req.files) {
+    const imgUrl = `${url}/public/${req.files[0].filename}`;
+    user = new User({
+      userID: req.body.userID,
+      username: req.body.username,
+      usernameEng: req.body.usernameEng,
+      role: req.body.role,
+      email: req.body.email,
+      passwd: req.body.passwd,
+      image: imgUrl,
+    });
+  } else {
+    user = new User({
+      userID: req.body.userID,
+      username: req.body.username,
+      usernameEng: req.body.usernameEng,
+      email: req.body.email,
+      passwd: req.body.passwd,
+    });
+  }
   user
     .save()
     .then((data) =>
