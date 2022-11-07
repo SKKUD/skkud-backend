@@ -19,11 +19,12 @@ const studySchema = mongoose.Schema({
     default: '장소 미정',
   },
   attendance: {
-    type: [mongoose.Types.ObjectId],
+    type: [String],
     default: [],
     ref: 'User',
   },
   task: {
+    //hashtable
     type: [{ name: String, task: String }],
     required: true,
   },

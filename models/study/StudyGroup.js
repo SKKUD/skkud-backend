@@ -6,7 +6,7 @@ const studyGroupSchema = mongoose.Schema({
     required: true,
   },
   members: {
-    type: [mongoose.Types.ObjectId],
+    type: [String],
     ref: 'User',
     required: true,
   },
