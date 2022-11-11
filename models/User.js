@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     enum: ['Level1', 'Level2', 'Level3'],
+    default: 'Level1',
   },
   passwd: { type: String, required: true },
   bio: { type: String }, //한줄소개

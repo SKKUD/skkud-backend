@@ -1,6 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
+const { authorize } = require('../../middlewares/authorize');
 
 const {
   getAllStudies,
@@ -17,8 +18,10 @@ router.get('/:studyGroupId', getStudiesByStudyGroup);
 
 router.get('/:id', getOneStudy);
 
-router.post('/:studyGroupId', createStudy);
+router.post('/:studyGroupId', authorize, createStudy);
 
-router.patch('/:id', updateStudy);
+router.patch('/:id', authorize, updateStudy);
 
-router.delete('/:id', deleteStudy);
+router.delete('/:id', authorize, deleteStudy);
+
+module.exports = router;

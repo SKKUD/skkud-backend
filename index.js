@@ -21,12 +21,14 @@ const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const authRouter = require('./routes/auth');
 const studyGroupRouter = require('./routes/study/studyGroup');
+const studyRouter = require('./routes/study/study');
 
 //app.use(upload.array());
 app.use('/public', express.static('public'));
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 app.use('/study/studyGroups', studyGroupRouter);
+app.use('/study/studies', studyRouter);
 app.use('/auth', authRouter);
 
 mongoose

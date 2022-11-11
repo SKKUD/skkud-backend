@@ -1,6 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
+const { authorizeLevel2 } = require('../../middlewares/authorize');
 
 const {
   getAllStudyGroups,
@@ -14,10 +15,10 @@ router.get('/', getAllStudyGroups);
 
 router.get('/:id', getOneStudyGroup);
 
-router.post('/', createStudyGroup);
+router.post('/', authorizeLevel2, createStudyGroup);
 
-router.patch('/:id', updateStudyGroup);
+router.patch('/:id', authorizeLevel2, updateStudyGroup);
 
-router.delete('/:id', deleteStudyGroup);
+router.delete('/:id', authorizeLevel2, deleteStudyGroup);
 
 module.exports = router;
