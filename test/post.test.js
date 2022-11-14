@@ -175,10 +175,13 @@ describe('Post /study/studies/studyGroupid', () => {
               groupId: studyGroupid,
               title: 'test 스터디',
               content: 'test 스터디 내용',
-              task: [{name:  "문태주", task: "라우터만들기"}],
+              task: [{name:  "문태주", task: "라우터만들기", }],
               studyTime: '2022-11-11T00:00:00.000+00:00'
             })
         .expect(200, done);
         })
        
     });
+
+
+
