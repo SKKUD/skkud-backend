@@ -19,7 +19,7 @@ router.get('/:id', getOnePost);
 router.post('/', authorizeLevel2, upload.any('images'), createPost); //array 사용시 오류나서 걍  any로 씀
 
 // update
-router.patch('/:id', authorizeLevel2, updatePost);
+router.patch('/:id', authorizeLevel2, upload.any('images'), updatePost);
 
 // destroy
 router.delete('/:id', authorizeLevel2, deletePost);
