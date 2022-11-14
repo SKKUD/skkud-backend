@@ -43,6 +43,7 @@ const createPost = (req, res) => {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
     post = new Post({
+      language: req.body.language,
       title: req.body.title,
       body: req.body.body,
       tags: req.body.tags,
