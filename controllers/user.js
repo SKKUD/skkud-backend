@@ -82,12 +82,13 @@ const updateUser = (req, res) => {
   User.findOneAndUpdate({ userID: req.params.id }, req.body)
     .then((data) => {
       if (!data) {
-        res.status(404).json({ status: 'fail', error: '404 Not Found' });
+        res.status(404).json({ status: 'fail', error: 'user not found' });
+      } else {
+        res.status(200).json({
+          status: 'success',
+          data,
+        });
       }
-      res.status(200).json({
-        status: 'success',
-        data,
-      });
     })
     .catch((error) => {
       res.status(400).json({
