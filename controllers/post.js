@@ -44,6 +44,7 @@ const createPost = (req, res) => {
     }
     post = new Post({
       title: req.body.title,
+      language: req.body.language,
       body: req.body.body,
       tags: req.body.tags,
       mainimage: urlArr[0],
