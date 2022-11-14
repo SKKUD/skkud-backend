@@ -5,6 +5,7 @@ const app = require('../index');
 // beforeAll(async () => {
 //     await sequelize.sync(); // 가짜 ORM 생성
 //  });
+//jest
 /*describe('그룹 테스트 설명 문자열', () => {
     const a = 1, b = 2; // 테스트에 사용할 일회용 가짜 변수 선언
   
@@ -15,7 +16,9 @@ const app = require('../index');
  */
 
 let postid ='6367d457478beec28f8e9026'; //test 할 post id
-let userid ='63679b5813a77d53463e4c16';
+let userid ='6367e4722aeb665b28f4e2f3';
+let studyid = '636dee5a7d44c88c3674514a';
+let studyGroupid = '636dece13ee7782e84583cee';
 
  // 게시물 전체 가져오기
 describe('GET /posts', () => {
@@ -44,6 +47,7 @@ describe('Post /posts/', () => {
             title: 'Test Post',
             body: 'Jest testing post body',
             tags: 'test',
+            language: 'English'
         })
         .expect(200, done);
     });
@@ -58,6 +62,7 @@ describe('Post /posts/id', () => {
             title: 'Test update a Post',
             body: 'Jest update testing post body',
             tags: 'test',
+            language: 'English'
         })
         .expect(200, done);
     });
@@ -103,7 +108,8 @@ describe('User /user/', () => {
             username: '정명희',
             usernameEng: 'JoungMhee',
             passwd: '12345678',
-            email:'jmhee3410@naver.com'
+            email:'jmhee3410@naver.com',
+            role: 'Level1',
         })
         .expect(200, done);
     });
@@ -118,18 +124,64 @@ describe('User /users/id', () => {
             userID: 'jmhee3434',
             username: '정명희',
             usernameEng: 'JoungMhee',
-            passwd: '12345678',
-            email:'jmhee3410@naver.com'
+            email:'jmhee3410@naver.com',
+            role: 'Level1',
         })
         .expect(200, done);
     });
 });
 
 //user 삭제
-describe('User /users/id', () => {
-    test('user 삭제',  (done) => {
+// describe('User /users/id', () => {
+//     test('user 삭제',  (done) => {
+//         request(app)
+//         .delete(`/users/${userid}`)
+//         .expect(200, done);
+//     });
+// });
+
+// study 전체 가져오기
+describe('GET /study/studies', () => {
+    test('study 가져오기', (done) => {
         request(app)
-        .delete(`/users/${userid}`)
+            .get('/study/studies')
+            .expect(200, done);
+    });
+});
+
+//study 아이디로 가져오기
+describe('GET /study/studies/id', () => {
+    test('study 아이디로 가져오기',  (done) => {
+        request(app)
+        .get(`/study/studies/${studyid}`)
         .expect(200, done);
     });
 });
+//studyGroup 아이디로 가져오기
+describe('GET /study/studies/studyGroupid', () => {
+    test('studyGroup 아이디로 가져오기',  (done) => {
+        request(app)
+        .get(`/study/studies/${studyGroupid}`)
+        .expect(200, done);
+    });
+});
+
+//study 만들기
+describe('Post /study/studies/studyGroupid', () => {
+    test('study 만들기',  (done) => {
+        request(app)
+        .post(`/study/studies/${studyGroupid}`)
+        .send({
+              groupId: studyGroupid,
+              title: 'test 스터디',
+              content: 'test 스터디 내용',
+              task: [{name:  "문태주", task: "라우터만들기", }],
+              studyTime: '2022-11-11T00:00:00.000+00:00'
+            })
+        .expect(200, done);
+        })
+       
+    });
+
+
+

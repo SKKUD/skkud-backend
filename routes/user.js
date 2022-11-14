@@ -18,7 +18,7 @@ router.get('/:id', getOneUser);
 router.post('/', upload.any('image'), createUser);
 
 // update
-router.patch('/:id', updateUser);
+router.patch('/:id', upload.any('image'), updateUser);
 
 // destroy
 router.delete('/:id', deleteUser);
