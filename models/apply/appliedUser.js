@@ -5,6 +5,21 @@ const appliedUserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  studentId: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  documentAnswers: {
+    type: [String],
+  },
 });
 
 const AppliedUser = mongoose.model('AppliedUser', appliedUserSchema);
