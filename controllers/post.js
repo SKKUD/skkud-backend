@@ -76,7 +76,22 @@ const createPost = (req, res) => {
 
 const updatePost = (req, res) => {
   req.body.updatedAt = Date.now(); //2
-  Post.findOneAndUpdate({ _id: req.params.id }, req.body)
+
+  if(req.files){
+
+    const url = `${req.protocol}://${req.get('host')}`;
+    const urlArr = [];
+    for (let i = 0; i < req.files.length; i += 1) {
+      urlArr.push(`${url}/public/${req.files[i].filename}`);
+    }
+    Post.findOneAndUpdate({ _id: req.params.id }, 
+      {title: req.body.title,
+      language: req.body.language,
+      body: req.body.body,
+      tags: req.body.tags,
+      mainimage: urlArr[0],
+      images: urlArr}
+      )
     .then((data) => {
       if (!data) {
         res.status(404).json({ status: 'fail', error: '404 Not Found' });
@@ -92,6 +107,25 @@ const updatePost = (req, res) => {
         error: error.message,
       })
     );
+  }
+else{
+  Post.findOneAndUpdate({ _id: req.params.id },req.body)
+    .then((data) => {
+      if (!data) {
+        res.status(404).json({ status: 'fail', error: '404 Not Found' });
+      }
+      res.status(200).json({
+        status: 'success',
+        data,
+      });
+    })
+    .catch((error) =>
+      res.status(400).json({
+        status: 'fail',
+        error: error.message,
+      })
+    );
+  }
 };
 
 const deletePost = (req, res) => {
