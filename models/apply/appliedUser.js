@@ -19,6 +19,15 @@ const appliedUserSchema = mongoose.Schema({
   },
   documentAnswers: {
     type: [String],
+    default: [],
+  },
+  documentScores: {
+    type: [Number],
+    default: [],
+  },
+  interviewScores: {
+    type: [Number],
+    default: [],
   },
 });
 

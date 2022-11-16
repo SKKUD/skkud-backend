@@ -10,17 +10,18 @@ const {
   deleteAllAppliedUsers,
   deleteAppliedUser,
 } = require('../../controllers/apply/appliedUser');
+const { authorize, authorizeLevel2 } = require('../../middlewares/authorize');
 
-router.get('/', getAllAppliedUsers);
+router.get('/', authorize, getAllAppliedUsers);
 
-router.get('/:id', getOneAppliedUser);
+router.get('/:id', authorize, getOneAppliedUser);
 
 router.post('/', createAppliedUser);
 
-router.patch('/:id', updateAppliedUser);
+router.patch('/:id', authorizeLevel2, updateAppliedUser);
 
-router.delete('/:id', deleteAppliedUser);
+router.delete('/:id', authorizeLevel2, deleteAppliedUser);
 
-router.delete('/', deleteAllAppliedUsers);
+router.delete('/', authorizeLevel2, deleteAllAppliedUsers);
 
 module.exports = router;

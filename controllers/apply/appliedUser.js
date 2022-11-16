@@ -51,7 +51,7 @@ const createAppliedUser = (req, res) => {
 };
 
 const updateAppliedUser = (req, res) => {
-  AppliedUser.findOneAndUpdate({ _id: req.params.id })
+  AppliedUser.findOneAndUpdate({ _id: req.params.id }, req.body)
     .then((data) => {
       if (!data) {
         res

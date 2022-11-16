@@ -3,7 +3,7 @@ const Applier = require('../../models/apply/applier');
 const getApplier = (req, res) => {
   Applier.find()
     .then((applier) => {
-      if (!applier) {
+      if (applier.length === 0) {
         res.status(404).json({ status: 'fail', error: 'applier not found' });
       } else {
         res.status(200).json({ status: 'success', data: applier });
@@ -14,7 +14,7 @@ const getApplier = (req, res) => {
 
 const createApplier = (req, res) => {
   Applier.find().then((data) => {
-    if (data) {
+    if (data.length > 0) {
       res
         .status(403)
         .json({ status: 'fail', error: '이미 지원 양식이 존재합니다.' });

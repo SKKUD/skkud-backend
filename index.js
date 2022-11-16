@@ -22,6 +22,8 @@ const postRouter = require('./routes/post');
 const authRouter = require('./routes/auth');
 const studyGroupRouter = require('./routes/study/studyGroup');
 const studyRouter = require('./routes/study/study');
+const applierRouter = require('./routes/apply/applier');
+const appliedUserRouter = require('./routes/apply/appliedUser');
 
 //app.use(upload.array());
 app.use('/public', express.static('public'));
@@ -29,6 +31,8 @@ app.use('/users', userRouter);
 app.use('/posts', postRouter);
 app.use('/study/studyGroups', studyGroupRouter);
 app.use('/study/studies', studyRouter);
+app.use('/applies/appliers', applierRouter);
+app.use('/applies/appliedUsers', appliedUserRouter);
 app.use('/auth', authRouter);
 
 mongoose

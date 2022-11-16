@@ -9,13 +9,14 @@ const {
   deleteApplier,
 } = require('../../controllers/apply/applier');
 const { isThereAppliedUser } = require('../../middlewares/apply');
+const { authorizeLevel3 } = require('../../middlewares/authorize');
 
 router.get('/', getApplier);
 
-router.post('/', createApplier);
+router.post('/', authorizeLevel3, createApplier);
 
-router.patch('/', isThereAppliedUser, updateApplier);
+router.patch('/', isThereAppliedUser, authorizeLevel3, updateApplier);
 
-router.delete('/', isThereAppliedUser, deleteApplier);
+router.delete('/', isThereAppliedUser, authorizeLevel3, deleteApplier);
 
 module.exports = router;

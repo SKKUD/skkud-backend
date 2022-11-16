@@ -14,14 +14,6 @@ const applierSchema = mongoose.Schema({
     type: [String],
     default: [],
   },
-  documentScores: {
-    type: [Number],
-    default: [],
-  },
-  interviewScores: {
-    type: [Number],
-    default: [],
-  },
 });
 
 const Applier = mongoose.model('Applier', applierSchema);

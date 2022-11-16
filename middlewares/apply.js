@@ -1,4 +1,4 @@
-const { AppliedUser } = require('../models/apply/appliedUser');
+const AppliedUser = require('../models/apply/appliedUser');
 
 const isThereAppliedUser = (req, res, next) => {
   AppliedUser.find().then((data) => {
