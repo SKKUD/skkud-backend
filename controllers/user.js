@@ -49,6 +49,7 @@ const createUser = (req, res) => {
       role: req.body.role,
       email: req.body.email,
       passwd: req.body.passwd,
+      track: req.body.track,
       image: imgUrl,
     });
   } else {
@@ -58,6 +59,7 @@ const createUser = (req, res) => {
       usernameEng: req.body.usernameEng,
       email: req.body.email,
       passwd: req.body.passwd,
+      track: req.body.track,
       role: req.body.role,
     });
   }
