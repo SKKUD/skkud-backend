@@ -52,6 +52,7 @@ const createUser = (req, res) => {
       track: req.body.track,
       otherLinks: req.body.otherLinks,
       insta: req.body.insta,
+      bio: req.body.bio,
       image: imgUrl,
     });
   } else {
@@ -64,7 +65,8 @@ const createUser = (req, res) => {
       track: req.body.track,
       role: req.body.role,
       otherLinks: req.body.otherLinks,
-      insta: req.bdoy.insta,
+      bio: req.body.bio,
+      insta: req.body.insta,
     });
   }
   user
