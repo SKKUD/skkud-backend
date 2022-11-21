@@ -51,6 +51,7 @@ const createUser = (req, res) => {
       passwd: req.body.passwd,
       track: req.body.track,
       otherLinks: req.body.otherLinks,
+      insta: req.body.insta,
       image: imgUrl,
     });
   } else {
@@ -63,6 +64,7 @@ const createUser = (req, res) => {
       track: req.body.track,
       role: req.body.role,
       otherLinks: req.body.otherLinks,
+      insta: req.bdoy.insta,
     });
   }
   user
