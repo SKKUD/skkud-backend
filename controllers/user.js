@@ -43,31 +43,11 @@ const createUser = (req, res) => {
   if (req.files) {
     const imgUrl = `${url}/public/${req.files[0].filename}`;
     user = new User({
-      userID: req.body.userID,
-      username: req.body.username,
-      usernameEng: req.body.usernameEng,
-      role: req.body.role,
-      email: req.body.email,
-      passwd: req.body.passwd,
-      track: req.body.track,
-      otherLinks: req.body.otherLinks,
-      insta: req.body.insta,
-      bio: req.body.bio,
+      ...req.body,
       image: imgUrl,
     });
   } else {
-    user = new User({
-      userID: req.body.userID,
-      username: req.body.username,
-      usernameEng: req.body.usernameEng,
-      email: req.body.email,
-      passwd: req.body.passwd,
-      track: req.body.track,
-      role: req.body.role,
-      otherLinks: req.body.otherLinks,
-      bio: req.body.bio,
-      insta: req.body.insta,
-    });
+    user = new User(req.body);
   }
   user
     .save()
