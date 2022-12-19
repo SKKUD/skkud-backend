@@ -17,6 +17,10 @@ const appliedUserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  track: {
+    type: String,
+    required: true,
+  },
   documentAnswers: {
     type: [String],
     default: [],
