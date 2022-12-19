@@ -34,7 +34,7 @@ const login = (req, res) => {
 const logout = (req, res) => {
   User.findOneAndUpdate({ userID: req.user.userID }, { token: '' }, (err) => {
     if (err) return res.json({ success: false, err });
-    return res.status(200).send({
+    return res.cookie('x_auth', '').status(200).json({
       success: true,
     });
   });

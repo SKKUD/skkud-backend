@@ -48,7 +48,16 @@ const createUser = (req, res) => {
     });
   } else {
     user = new User({
-      ...req.body,
+      userID: req.body.userID,
+      username: req.body.username,
+      usernameEng: req.body.usernameEng,
+      email: req.body.email,
+      passwd: req.body.passwd,
+      track: req.body.track,
+      role: req.body.role,
+      otherLinks: req.body.otherLinks,
+      bio: req.body.bio,
+      insta: req.body.insta,
     });
   }
   user
