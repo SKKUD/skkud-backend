@@ -76,7 +76,8 @@ const createPost = (req, res) => {
 
 const updatePost = (req, res) => {
   req.body.updatedAt = Date.now(); //2
-
+  
+  
   if (req.files) {
     const url = `${req.protocol}://${req.get('host')}`;
     const urlArr = [];
@@ -110,7 +111,19 @@ const updatePost = (req, res) => {
         })
       );
   } else {
-    Post.findOneAndUpdate({ _id: req.params.id }, req.body)
+    prePost = Post.findById(req.params.id)
+    console.log(prePost.mainimage);
+    console.log(prePost.images);
+    
+    Post.findOneAndUpdate({ _id: req.params.id },
+      {
+        title: req.body.title,
+        language: req.body.language,
+        body: req.body.body,
+        tags: req.body.tags,
+        mainimage: prePost.mainimage,
+        images: prePost.images,
+      })
       .then((data) => {
         if (!data) {
           res.status(404).json({ status: 'fail', error: '404 Not Found' });
