@@ -52,6 +52,7 @@ const createPost = (req, res) => {
     });
   } else {
     post = new Post({
+      language: req.body.language,
       title: req.body.title,
       body: req.body.body,
       tags: req.body.tags,
