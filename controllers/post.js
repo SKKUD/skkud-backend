@@ -113,7 +113,7 @@ const updatePost = (req, res) => {
         })
       );
   } else {
-    prePost = Post.findById(req.params.id);
+    const prePost = Post.findById(req.params.id);
     console.log(prePost.mainimage);
     console.log(prePost.images);
 
