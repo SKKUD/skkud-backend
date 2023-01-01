@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema({
     enum: ['Level1', 'Level2', 'Level3'],
     default: 'Level1',
   },
+  major: {
+    type: String,
+    required: true,
+  },
   passwd: { type: String, required: true },
   bio: { type: String }, //한줄소개
   track: {

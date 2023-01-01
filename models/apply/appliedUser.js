@@ -9,11 +9,19 @@ const appliedUserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  major: {
+    type: String,
+    required: true,
+  },
   phoneNumber: {
     type: String,
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  track: {
     type: String,
     required: true,
   },

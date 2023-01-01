@@ -48,14 +48,17 @@ const createPost = (req, res) => {
       language: req.body.language,
       body: req.body.body,
       tags: req.body.tags,
+      users: req.body.users,
       mainimage: urlArr[0],
       images: urlArr,
     });
   } else {
     post = new Post({
+      language: req.body.language,
       title: req.body.title,
       body: req.body.body,
       tags: req.body.tags,
+      users: req.body.users,
     });
   }
 
@@ -78,54 +81,69 @@ const createPost = (req, res) => {
 const updatePost = (req, res) => {
   req.body.updatedAt = Date.now(); //2
 
-  if(req.files){
-
+  if (req.files) {
     const url = `${req.protocol}://${req.get('host')}`;
     const urlArr = [];
     for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
-    Post.findOneAndUpdate({ _id: req.params.id }, 
-      {title: req.body.title,
-      language: req.body.language,
-      body: req.body.body,
-      tags: req.body.tags,
-      mainimage: urlArr[0],
-      images: urlArr}
-      )
-    .then((data) => {
-      if (!data) {
-        res.status(404).json({ status: 'fail', error: '404 Not Found' });
+    Post.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title: req.body.title,
+        language: req.body.language,
+        body: req.body.body,
+        tags: req.body.tags,
+        mainimage: urlArr[0],
+        images: urlArr,
       }
-      res.status(200).json({
-        status: 'success',
-        data,
-      });
-    })
-    .catch((error) =>
-      res.status(400).json({
-        status: 'fail',
-        error: error.message,
+    )
+      .then((data) => {
+        if (!data) {
+          res.status(404).json({ status: 'fail', error: '404 Not Found' });
+        }
+        res.status(200).json({
+          status: 'success',
+          data,
+        });
       })
-    );
-  }
-else{
-  Post.findOneAndUpdate({ _id: req.params.id },req.body)
-    .then((data) => {
-      if (!data) {
-        res.status(404).json({ status: 'fail', error: '404 Not Found' });
+      .catch((error) =>
+        res.status(400).json({
+          status: 'fail',
+          error: error.message,
+        })
+      );
+  } else {
+    const prePost = Post.findById(req.params.id);
+    console.log(prePost.mainimage);
+    console.log(prePost.images);
+
+    Post.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title: req.body.title,
+        language: req.body.language,
+        body: req.body.body,
+        tags: req.body.tags,
+        mainimage: prePost.mainimage,
+        images: prePost.images,
       }
-      res.status(200).json({
-        status: 'success',
-        data,
-      });
-    })
-    .catch((error) =>
-      res.status(400).json({
-        status: 'fail',
-        error: error.message,
+    )
+      .then((data) => {
+        if (!data) {
+          res.status(404).json({ status: 'fail', error: '404 Not Found' });
+        }
+        res.status(200).json({
+          status: 'success',
+          data,
+        });
       })
-    );
+      .catch((error) =>
+        res.status(400).json({
+          status: 'fail',
+          error: error.message,
+        })
+      );
   }
 };
 

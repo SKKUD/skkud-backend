@@ -40,15 +40,10 @@ const getOneUser = (req, res) => {
 const createUser = (req, res) => {
   const url = `${req.protocol}://${req.get('host')}`;
   let user;
-  if (req.files) {
+  if (req.files.length !== 0) {
     const imgUrl = `${url}/public/${req.files[0].filename}`;
     user = new User({
-      userID: req.body.userID,
-      username: req.body.username,
-      usernameEng: req.body.usernameEng,
-      role: req.body.role,
-      email: req.body.email,
-      passwd: req.body.passwd,
+      ...req.body,
       image: imgUrl,
     });
   } else {
@@ -58,7 +53,11 @@ const createUser = (req, res) => {
       usernameEng: req.body.usernameEng,
       email: req.body.email,
       passwd: req.body.passwd,
+      track: req.body.track,
       role: req.body.role,
+      otherLinks: req.body.otherLinks,
+      bio: req.body.bio,
+      insta: req.body.insta,
     });
   }
   user
@@ -79,7 +78,7 @@ const createUser = (req, res) => {
 
 const updateUser = (req, res) => {
   req.body.updatedAt = Date.now();
-  User.findOneAndUpdate({ userID: req.params.id }, req.body)
+  User.findOneAndUpdate({ userID: req.params.id }, req.body, { new: true })
     .then((data) => {
       if (!data) {
         res.status(404).json({ status: 'fail', error: 'user not found' });
