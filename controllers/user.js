@@ -40,25 +40,14 @@ const getOneUser = (req, res) => {
 const createUser = (req, res) => {
   const url = `${req.protocol}://${req.get('host')}`;
   let user;
-  if (req.files.length !== 0) {
+  if (req.files) {
     const imgUrl = `${url}/public/${req.files[0].filename}`;
     user = new User({
       ...req.body,
       image: imgUrl,
     });
   } else {
-    user = new User({
-      userID: req.body.userID,
-      username: req.body.username,
-      usernameEng: req.body.usernameEng,
-      email: req.body.email,
-      passwd: req.body.passwd,
-      track: req.body.track,
-      role: req.body.role,
-      otherLinks: req.body.otherLinks,
-      bio: req.body.bio,
-      insta: req.body.insta,
-    });
+    user = new User(req.body);
   }
   user
     .save()
