@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema({
   body: { type: String, required: true },
   tags: [{ type: String }],
   link: { type: String, default: '없음' },
-  language: {
+  developPeriod: {
     type: String,
     required: true,
   },

@@ -44,22 +44,12 @@ const createPost = (req, res) => {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
     post = new Post({
-      title: req.body.title,
-      language: req.body.language,
-      body: req.body.body,
-      tags: req.body.tags,
-      users: req.body.users,
+      ...req.body,
       mainimage: urlArr[0],
       images: urlArr,
     });
   } else {
-    post = new Post({
-      language: req.body.language,
-      title: req.body.title,
-      body: req.body.body,
-      tags: req.body.tags,
-      users: req.body.users,
-    });
+    post = new Post(req.body);
   }
 
   post
