@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 const getAllPosts = (req, res) => {
   Post.find({})
@@ -89,10 +90,7 @@ const updatePost = (req, res) => {
     Post.findOneAndUpdate(
       { _id: req.params.id },
       {
-        title: req.body.title,
-        language: req.body.language,
-        body: req.body.body,
-        tags: req.body.tags,
+        ...req.body,
         mainimage: urlArr[0],
         images: urlArr,
       }
@@ -114,16 +112,10 @@ const updatePost = (req, res) => {
       );
   } else {
     const prePost = Post.findById(req.params.id);
-    console.log(prePost.mainimage);
-    console.log(prePost.images);
-
     Post.findOneAndUpdate(
       { _id: req.params.id },
       {
-        title: req.body.title,
-        language: req.body.language,
-        body: req.body.body,
-        tags: req.body.tags,
+        ...req.body,
         mainimage: prePost.mainimage,
         images: prePost.images,
       }
@@ -143,6 +135,25 @@ const updatePost = (req, res) => {
           error: error.message,
         })
       );
+  }
+};
+
+const addContributor = async (req, res) => {
+  try {
+    const contributors = req.body.contributors;
+    contributors.forEach(async (userID) => {
+      const user = await User.findById(userID);
+      if (user) {
+        user.projects = [...user.projects, req.params.id];
+        user.save();
+      }
+    });
+    const post = await Post.findById(req.params.id);
+    post.users = [...post.users, contributors];
+    post.save();
+    res.status(200).json({ status: 'success', data: post });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
   }
 };
 
@@ -166,6 +177,7 @@ module.exports = {
   getAllPosts,
   getOnePost,
   createPost,
+  addContributor,
   updatePost,
   deletePost,
 };

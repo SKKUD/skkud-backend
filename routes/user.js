@@ -4,6 +4,7 @@ const { upload } = require('../middlewares/files');
 const router = express.Router();
 const {
   getAllUsers,
+  getUsersByProjectId,
   getOneUser,
   createUser,
   updateUser,
@@ -13,6 +14,8 @@ const {
 router.get('/', getAllUsers);
 
 router.get('/:id', getOneUser);
+
+router.get('/byProject/:projectID', getUsersByProjectId);
 
 // create
 router.post('/', upload.any('image'), createUser);
