@@ -7,6 +7,7 @@ const {
   getAllPosts,
   getOnePost,
   createPost,
+  addContributor,
   updatePost,
   deletePost,
 } = require('../controllers/post');
@@ -20,6 +21,8 @@ router.post('/', upload.any('images'), authorizeLevel2, createPost); //array 사
 
 // update
 router.post('/revise/:id', upload.any('images'), authorizeLevel2, updatePost);
+
+router.patch('/contributor/:id', addContributor);
 
 // destroy
 router.delete('/:id', authorizeLevel2, deletePost);
