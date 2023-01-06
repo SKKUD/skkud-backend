@@ -139,7 +139,7 @@ const addContributor = async (req, res) => {
       }
     });
     const post = await Post.findById(req.params.id);
-    post.users = [...post.users, contributors];
+    post.users = [...post.users, ...contributors];
     post.save();
     res.status(200).json({ status: 'success', data: post });
   } catch (error) {
