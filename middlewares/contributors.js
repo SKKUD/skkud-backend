@@ -4,6 +4,14 @@ const Post = require('../models/Post');
 const contributorMiddleware = async (req, res, next) => {
   try {
     const initializeContributors = req.body.initializeContributors;
+    if (req.body.contributors) {
+      res.status(400).json({
+        status: 'fail',
+        error:
+          '생성 및 수정사항에 contributors를 직접적으로 명시해서는 안됩니다.',
+      });
+      return;
+    }
     const addContributors = req.body.addContributors;
     const deleteContributors = req.body.deleteContributors;
     if (initializeContributors) {
