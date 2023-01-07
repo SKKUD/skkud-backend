@@ -18,7 +18,13 @@ router.get('/', getAllPosts);
 router.get('/:id', getOnePost);
 
 // create
-router.post('/', upload.any('images'), authorizeLevel2, createPost); //array 사용시 오류나서 걍  any로 씀
+router.post(
+  '/',
+  contributorMiddleware,
+  upload.any('images'),
+  authorizeLevel2,
+  createPost
+); //array 사용시 오류나서 걍  any로 씀
 
 // update
 router.post(
