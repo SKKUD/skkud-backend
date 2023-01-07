@@ -147,6 +147,25 @@ const addContributor = async (req, res) => {
   }
 };
 
+const deleteContributor = async (req, res) => {
+  try {
+    const contributors = req.body.contributors;
+    contributors.forEach(async (userID) => {
+      const user = await User.findById(userID);
+      if (user) {
+        user.projects = user.projects.filter((item) => console.log(item));
+        user.save();
+      }
+    });
+    const post = await Post.findById(req.params.id);
+    post.users = post.users.filter((item) => contributors.indexOf(item) < 0);
+    post.save();
+    res.status(200).json({ status: 'success', data: post });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
+  }
+};
+
 const deletePost = (req, res) => {
   Post.findByIdAndDelete(req.params.id)
     .then(() =>
@@ -168,6 +187,7 @@ module.exports = {
   getOnePost,
   createPost,
   addContributor,
+  deleteContributor,
   updatePost,
   deletePost,
 };
