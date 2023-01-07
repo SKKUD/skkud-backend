@@ -3,8 +3,19 @@ const Post = require('../models/Post');
 
 const contributorMiddleware = async (req, res, next) => {
   try {
+    const initializeContributors = req.body.initializeContributors;
     const addContributors = req.body.addContributors;
     const deleteContributors = req.body.deleteContributors;
+    if (initializeContributors) {
+      addContributors.forEach(async (userID) => {
+        const user = await User.findById(userID);
+        if (user) {
+          user.projects = [...user.projects, req.params.id];
+          user.save();
+        }
+      });
+      req.body.contributors = initializeContributors;
+    }
     if (addContributors) {
       addContributors.forEach(async (userID) => {
         const user = await User.findById(userID);
