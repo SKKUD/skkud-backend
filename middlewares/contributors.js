@@ -4,7 +4,7 @@ const Post = require('../models/Post');
 const contributorMiddleware = async (req, res, next) => {
   try {
     const initializeContributors = req.body.initializeContributors;
-    if (req.body.contributors) {
+    if (req.body.users) {
       res.status(400).json({
         status: 'fail',
         error:
@@ -15,14 +15,14 @@ const contributorMiddleware = async (req, res, next) => {
     const addContributors = req.body.addContributors;
     const deleteContributors = req.body.deleteContributors;
     if (initializeContributors) {
-      addContributors.forEach(async (userID) => {
+      initializeContributors.forEach(async (userID) => {
         const user = await User.findById(userID);
         if (user) {
           user.projects = [...user.projects, req.params.id];
           user.save();
         }
       });
-      req.body.contributors = initializeContributors;
+      req.body.users = initializeContributors;
     }
     if (addContributors) {
       addContributors.forEach(async (userID) => {
