@@ -39,6 +39,7 @@ const userSchema = mongoose.Schema({
   token: { type: String },
   tokenExp: { type: Number },
   image: { type: String },
+  skills: [{ type: String }]
 });
 
 //middlewares
