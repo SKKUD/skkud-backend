@@ -87,7 +87,7 @@ const updatePost = (req, res) => {
     )
       .then((data) => {
         if (!data) {
-          res.status(404).json({ status: 'fail', error: '404 Not Found' });
+          res.status(404).json({ status: 'fail', error: 'Post Not Found' });
         }
         res.status(200).json({
           status: 'success',

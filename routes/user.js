@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   getAllUsers,
   getUsersByProjectId,
+  getMultipleUsers,
   getOneUser,
   createUser,
   updateUser,
@@ -16,6 +17,8 @@ router.get('/', getAllUsers);
 router.get('/:id', getOneUser);
 
 router.get('/byProject/:projectID', getUsersByProjectId);
+
+router.get('/multiple', getMultipleUsers);
 
 // create
 router.post('/', upload.any('image'), createUser);

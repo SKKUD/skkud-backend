@@ -32,7 +32,20 @@ const getOneStudy = (req, res) => {
 };
 
 const createStudy = (req, res) => {
-  const study = new Study(req.body);
+  const url = `${req.protocol}://${req.get('host')}`;
+  let study;
+  if (req.files) {
+    const urlArr = [];
+    for (let i = 0; i < req.files.length; i += 1) {
+      urlArr.push(`${url}/public/${req.files[i].filename}`);
+    }
+    study = new Study({
+      ...req.body,
+      images: urlArr,
+    });
+  } else {
+    study = new Study(req.body);
+  }
   study.groupId = new Types.ObjectId(req.params.studyGroupId);
   study
     .save()
@@ -43,11 +56,39 @@ const createStudy = (req, res) => {
 };
 
 const updateStudy = (req, res) => {
-  Study.findOneAndUpdate({ _id: req.params.id }, req.body)
-    .then((data) => res.status(200).json({ status: 'success', data }))
-    .catch((error) =>
-      res.status(400).json({ status: 'fail', error: error.message })
-    );
+  if (req.files) {
+    const url = `${req.protocol}://${req.get('host')}`;
+    const urlArr = [];
+    for (let i = 0; i < req.files.length; i += 1) {
+      urlArr.push(`${url}/public/${req.files[i].filename}`);
+    }
+    req.boy.images = urlArr;
+    Study.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((data) => {
+        if (!data) {
+          res.status(404).json({ status: 'fail', error: 'study not found' });
+          return;
+        }
+        res.status(200).json({ status: 'success', data });
+      })
+      .catch((error) =>
+        res.status(400).json({ status: 'fail', error: error.message })
+      );
+  } else {
+    const preStudy = Study.findById(req.params.id);
+    req.body.images = preStudy.images;
+    Study.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((data) => {
+        if (!data) {
+          res.status(404).json({ status: 'fail', error: 'study not found' });
+          return;
+        }
+        res.status(200).json({ status: 'success', data });
+      })
+      .catch((error) =>
+        res.status(400).json({ status: 'fail', error: error.message })
+      );
+  }
 };
 
 const deleteStudy = (req, res) => {

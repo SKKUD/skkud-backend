@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { authorize } = require('../../middlewares/authorize');
+const { upload } = require('../../middlewares/files');
 
 const {
   getAllStudies,
@@ -18,9 +19,9 @@ router.get('/:studyGroupId', getStudiesByStudyGroup);
 
 router.get('/:id', getOneStudy);
 
-router.post('/:studyGroupId', authorize, createStudy);
+router.post('/:studyGroupId', authorize, upload.any('images'), createStudy);
 
-router.patch('/:id', authorize, updateStudy);
+router.patch('/:id', authorize, upload.any('images'), updateStudy);
 
 router.delete('/:id', authorize, deleteStudy);
 

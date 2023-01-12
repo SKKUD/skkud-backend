@@ -30,6 +30,19 @@ const getUsersByProjectId = async (req, res) => {
   }
 };
 
+const getMultipleUsers = async (req, res) => {
+  try {
+    const searchingUsers = req.body.searchingUsers;
+    let users = await User.find();
+    users = users.filter(
+      (user) => searchingUsers.indexOf(String(user._id)) >= 0
+    );
+    res.status(200).json({ status: 'success', data: users });
+  } catch (error) {
+    res.status(500).json({ status: 'fail', error: error.message });
+  }
+};
+
 const getOneUser = (req, res) => {
   const id = req.params.id;
   User.findOne({ userID: id })
@@ -117,6 +130,7 @@ const deleteUser = (req, res) => {
 module.exports = {
   getAllUsers,
   getUsersByProjectId,
+  getMultipleUsers,
   getOneUser,
   createUser,
   updateUser,

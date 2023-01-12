@@ -10,6 +10,9 @@ const studySchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  images: {
+    type: [String],
+  },
   content: {
     type: String,
     required: true,
@@ -28,7 +31,11 @@ const studySchema = mongoose.Schema({
     type: [{ name: String, task: String }],
     required: true,
   },
-  studyTime: {
+  studyTimeStart: {
+    type: Date,
+    required: true,
+  },
+  studyTimeEnd: {
     type: Date,
     required: true,
   },
