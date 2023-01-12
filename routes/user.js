@@ -14,11 +14,11 @@ const {
 
 router.get('/', getAllUsers);
 
+router.get('/multiple', getMultipleUsers);
+
 router.get('/:id', getOneUser);
 
 router.get('/byProject/:projectID', getUsersByProjectId);
-
-router.get('/multiple', getMultipleUsers);
 
 // create
 router.post('/', upload.any('image'), createUser);
