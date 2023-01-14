@@ -26,10 +26,13 @@ const studySchema = mongoose.Schema({
     default: [],
     ref: 'User',
   },
-  task: {
-    //hashtable
-    type: [{ name: String, task: String }],
-    required: true,
+  taskNames: {
+    type: [String],
+    default: [],
+  },
+  taskContents: {
+    type: [String],
+    default: [],
   },
   studyTimeStart: {
     type: Date,
