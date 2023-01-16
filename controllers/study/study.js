@@ -62,7 +62,9 @@ const updateStudy = (req, res) => {
     for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
-    req.boy.images = urlArr;
+    if (urlArr.length !== 0) {
+      req.boy.images = urlArr;
+    }
     Study.findOneAndUpdate({ _id: req.params.id }, req.body)
       .then((data) => {
         if (!data) {
