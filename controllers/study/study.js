@@ -62,10 +62,13 @@ const updateStudy = (req, res) => {
     for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
-    if (urlArr.length !== 0) {
-      req.boy.images = urlArr;
-    }
-    Study.findOneAndUpdate({ _id: req.params.id }, req.body)
+    Study.findOneAndUpdate(
+      { _id: req.params.id }, 
+      {
+        ...req.body,
+        images: urlArr
+      }
+      )
       .then((data) => {
         if (!data) {
           res.status(404).json({ status: 'fail', error: 'study not found' });
