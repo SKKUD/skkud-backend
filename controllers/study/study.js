@@ -82,7 +82,12 @@ const updateStudy = (req, res) => {
   } else {
     const preStudy = Study.findById(req.params.id);
     req.body.images = preStudy.images;
-    Study.findOneAndUpdate({ _id: req.params.id }, req.body)
+    Study.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        ...req.body,        
+        images: preStudy.images,
+      })
       .then((data) => {
         if (!data) {
           res.status(404).json({ status: 'fail', error: 'study not found' });
