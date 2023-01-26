@@ -9,7 +9,10 @@ require('dotenv').config();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? 'http://skkud.com'
+      : 'http://localhost:3000',
   credentials: true,
 };
 
