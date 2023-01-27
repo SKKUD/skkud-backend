@@ -135,7 +135,6 @@ const addContributor = async (req, res) => {
       const user = await User.findById(userID);
       if (user) {
         user.projects = [...user.projects, req.params.id];
-        user._id = 1;
         user.save();
       }
     });
