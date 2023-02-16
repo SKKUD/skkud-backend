@@ -7,7 +7,7 @@ const authorize = (req, res, next) => {
   //토큰을 복호화 한 후 유저를 찾는다.
   User.findByToken(token, (err, user) => {
     if (err) throw err;
-    if (!user) return res.status(403).json({ isAuth: false, error: true });
+    if (!user) return res.status(401).json({ isAuth: false, error: true });
     req.token = token;
     req.user = user;
     next(); //미들웨어에서 벗어날 수 있게한다.
