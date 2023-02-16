@@ -134,14 +134,17 @@ const addContributor = async (req, res) => {
     contributors.forEach(async (userID) => {
       const user = await User.findById(userID);
       if (user) {
-        user.projects = [...user.projects, req.params.id];
-        user.projects = [...new Set(user.projects)];
-        user.save();
+        if (user.projects.indexOf(req.params.id) < 0) {
+          user.projects = [...user.projects, req.params.id];
+          user.save();
+        }
       }
     });
     const post = await Post.findById(req.params.id);
     post.users = [...post.users, ...contributors];
-    post.users = [...new Set(post.users)];
+    post.users = post.users.filter(
+      (element, index) => post.users.indexOf(element) === index
+    );
     post.save();
     res.status(200).json({ status: 'success', data: post });
   } catch (error) {
@@ -168,20 +171,21 @@ const deleteContributor = async (req, res) => {
   }
 };
 
-const deletePost = (req, res) => {
-  Post.findByIdAndDelete(req.params.id)
-    .then(() =>
-      res.status(200).json({
-        status: 'success',
-        message: 'deleted successfully',
-      })
-    )
-    .catch((error) =>
-      res.status(400).json({
-        status: 'fail',
-        error: error.message,
-      })
-    );
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    post.users.forEach(async (userID) => {
+      const user = await User.findById(userID);
+      user.projects = user.projects.filter(
+        (item) => String(item) !== String(post._id)
+      );
+      user.save();
+    });
+    post.delete();
+    res.status(200).json({ status: 'success', data: 'successfully deleted' });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error });
+  }
 };
 
 module.exports = {
