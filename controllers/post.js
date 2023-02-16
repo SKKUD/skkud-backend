@@ -135,11 +135,13 @@ const addContributor = async (req, res) => {
       const user = await User.findById(userID);
       if (user) {
         user.projects = [...user.projects, req.params.id];
+        user.projects = [...new Set(user.projects)];
         user.save();
       }
     });
     const post = await Post.findById(req.params.id);
     post.users = [...post.users, ...contributors];
+    post.users = [...new Set(post.users)];
     post.save();
     res.status(200).json({ status: 'success', data: post });
   } catch (error) {

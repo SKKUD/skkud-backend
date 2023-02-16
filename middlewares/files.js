@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 uuidv4();
-const DIR = './public/';
+const DIR = './uploads/';
 
 const upload = multer({
   storage: multer.diskStorage({

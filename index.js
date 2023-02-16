@@ -11,7 +11,7 @@ const app = express();
 const corsOptions = {
   origin:
     process.env.NODE_ENV === 'production'
-      ? 'http://3.38.103.20/'
+      ? 'https://www.skku.dev'
       : 'http://localhost:3000',
   credentials: true,
 };
