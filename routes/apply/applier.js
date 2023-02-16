@@ -13,7 +13,7 @@ const { authorizeLevel3 } = require('../../middlewares/authorize');
 
 router.get('/', getApplier);
 
-router.post('/', authorizeLevel3, createApplier);
+router.post('/', createApplier);
 
 router.patch('/', isThereAppliedUser, authorizeLevel3, updateApplier);
 

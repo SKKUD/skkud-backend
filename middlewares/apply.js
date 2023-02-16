@@ -2,6 +2,7 @@ const AppliedUser = require('../models/apply/appliedUser');
 
 const isThereAppliedUser = (req, res, next) => {
   AppliedUser.find().then((data) => {
+    console.log(data);
     if (data.length > 0) {
       res.status(403).json({
         status: 'fail',
