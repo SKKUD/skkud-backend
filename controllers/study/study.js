@@ -32,7 +32,7 @@ const getOneStudy = (req, res) => {
 };
 
 const createStudy = (req, res) => {
-  const url = `${req.protocol}://${req.get('host')}`;
+  const url = 'https://api.skku.dev';
   let study;
   if (req.files) {
     const urlArr = [];
@@ -57,18 +57,18 @@ const createStudy = (req, res) => {
 
 const updateStudy = (req, res) => {
   if (req.files) {
-    const url = `${req.protocol}://${req.get('host')}`;
+    const url = 'https://api.skku.dev';
     const urlArr = [];
     for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);
     }
     Study.findOneAndUpdate(
-      { _id: req.params.id }, 
+      { _id: req.params.id },
       {
         ...req.body,
-        images: urlArr
+        images: urlArr,
       }
-      )
+    )
       .then((data) => {
         if (!data) {
           res.status(404).json({ status: 'fail', error: 'study not found' });
@@ -85,9 +85,10 @@ const updateStudy = (req, res) => {
     Study.findOneAndUpdate(
       { _id: req.params.id },
       {
-        ...req.body,        
+        ...req.body,
         images: preStudy.images,
-      })
+      }
+    )
       .then((data) => {
         if (!data) {
           res.status(404).json({ status: 'fail', error: 'study not found' });

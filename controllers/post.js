@@ -36,7 +36,7 @@ const getOnePost = (req, res) => {
 };
 
 const createPost = (req, res) => {
-  const url = `${req.protocol}://${req.get('host')}`;
+  const url = 'https://api.skku.dev';
   let post;
   if (req.files) {
     const urlArr = [];
@@ -72,7 +72,7 @@ const updatePost = (req, res) => {
   req.body.updatedAt = Date.now(); //2
 
   if (req.files) {
-    const url = `${req.protocol}://${req.get('host')}`;
+    const url = 'https://api.skku.dev';
     const urlArr = [];
     for (let i = 0; i < req.files.length; i += 1) {
       urlArr.push(`${url}/public/${req.files[i].filename}`);

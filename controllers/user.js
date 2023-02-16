@@ -63,7 +63,7 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const url = `${req.protocol}://${req.get('host')}`;
+  const url = 'https://api.skku.dev';
   let user;
   if (req.files) {
     const imgUrl = `${url}/public/${req.files[0].filename}`;
