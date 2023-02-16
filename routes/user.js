@@ -11,6 +11,7 @@ const {
   updateUser,
   deleteUser,
 } = require('../controllers/user');
+const { authorizeLevel2 } = require('../middlewares/authorize');
 
 router.get('/', getAllUsers);
 
@@ -21,7 +22,7 @@ router.get('/:id', getOneUser);
 router.get('/byProject/:projectID', getUsersByProjectId);
 
 // create
-router.post('/', upload.any('image'), createUser);
+router.post('/', upload.any('image'), authorizeLevel2, createUser);
 
 // update
 router.patch('/:id', upload.any('image'), updateUser);
