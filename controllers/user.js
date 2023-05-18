@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Post = require('../models/Post');
 
 const getAllUsers = (req, res) => {
   User.find()
@@ -20,10 +21,12 @@ const getAllUsers = (req, res) => {
 
 const getUsersByProjectId = async (req, res) => {
   try {
-    let users = await User.find();
-    users = users.filter((user) =>
-      user.projects.includes(req.params.projectID)
-    );
+    const post = await Post.findById(req.params.projectID).lean();
+    if (!post) {
+      res.status(404).json({ status: 'fail', error: 'Post Not Found' });
+      return;
+    }
+    const users = await User.find().where('_id').in(post.users).lean();
     res.status(200).json({ status: 'success', data: users });
   } catch (error) {
     res.status(500).json({ status: 'fail', error: error.message });

@@ -7,7 +7,6 @@ const {
   getAllPosts,
   getOnePost,
   createPost,
-  addContributor,
   updatePost,
   deletePost,
 } = require('../controllers/post');
@@ -18,17 +17,10 @@ router.get('/', getAllPosts);
 router.get('/:id', getOnePost);
 
 // create
-router.post('/', contributorMiddleware, upload.any('images'), createPost); //array 사용시 오류나서 걍  any로 씀
+router.post('/', upload.any('images'), contributorMiddleware, createPost); //array 사용시 오류나서 걍  any로 씀
 
 // update
-router.post(
-  '/revise/:id',
-  contributorMiddleware,
-  upload.any('images'),
-  updatePost
-);
-
-router.patch('/contributor/:id', addContributor);
+router.patch('/:id', upload.any('images'), contributorMiddleware, updatePost);
 
 // destroy
 router.delete('/:id', authorizeLevel2, deletePost);
