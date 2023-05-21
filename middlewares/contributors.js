@@ -12,13 +12,17 @@ const contributorMiddleware = async (req, res, next) => {
       if (!property) req.body[propertyName] = [];
       else if (!Array.isArray(property)) req.body[propertyName] = [property];
     });
-    const userIDs = []
-      .concat(
-        req.body.initializeContributors,
-        req.body.addContributors,
-        req.body.deleteContributors
-      )
-      .filter((id, index, arr) => arr.indexOf(id) === index);
+    const userIDs = [
+      ...req.body.initializeContributors,
+      ...req.body.addContributors,
+      ...req.body.deleteContributors,
+    ];
+    if (new Set(userIDs).size !== userIDs.length) {
+      return res.status(400).json({
+        status: 'fail',
+        error: 'contributors must be unique',
+      });
+    }
     const users = await User.find().where('_id').in(userIDs).lean();
     if (users.length !== userIDs.length) {
       return res.status(400).json({

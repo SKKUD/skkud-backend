@@ -32,6 +32,7 @@ const userSchema = mongoose.Schema({
     message: '이메일 형식이 알맞지 않습니다',
   },
   insta: { type: String },
+  projects: { type: [mongoose.Schema.Types.ObjectId], default: [] },
   otherLinks: [String],
   createdAt: { type: Date, default: Date.now }, // 2
   updatedAt: { type: Date },

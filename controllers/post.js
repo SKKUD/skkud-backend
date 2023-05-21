@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/User');
 
 const getAllPosts = (req, res) => {
   Post.find({})
@@ -53,6 +54,10 @@ const createPost = async (req, res) => {
       post = new Post(req.body);
     }
     const data = await post.save();
+    await User.updateMany(
+      { _id: { $in: req.body.initializeContributors } },
+      { $addToSet: { projects: data._id } }
+    );
     res.status(200).json({ status: 'success', data });
   } catch (error) {
     res.status(400).json({ status: 'fail', error: error.message });
@@ -72,8 +77,10 @@ const updatePost = async (req, res) => {
       ? req.files.map((file) => `${url}/public/${file.filename}`)
       : post.images;
     const updatedUsers = post.users
-      .filter((user) => !req.body.deleteContributors.includes(String(user)))
-      .concat(req.body.addContributors);
+      .map((user) => String(user))
+      .filter((user) => !req.body.deleteContributors.includes(user))
+      .concat(req.body.addContributors)
+      .filter((user, index, self) => self.indexOf(user) === index);
     const data = await Post.findOneAndUpdate(
       { _id: req.params.id },
       {
@@ -84,6 +91,16 @@ const updatePost = async (req, res) => {
       },
       { new: true }
     );
+    await Promise.all([
+      User.updateMany(
+        { _id: { $in: req.body.addContributors } },
+        { $addToSet: { projects: data._id } }
+      ),
+      User.updateMany(
+        { _id: { $in: req.body.deleteContributors } },
+        { $pull: { projects: data._id } }
+      ),
+    ]);
     res.status(200).json({ status: 'success', data });
   } catch (error) {
     res.status(400).json({ status: 'fail', error: error.message });
@@ -92,7 +109,13 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    await Post.findOneAndDelete({ _id: req.params.id });
+    const deleted = await Post.findOneAndDelete({ _id: req.params.id });
+    if (deleted) {
+      await User.updateMany(
+        { _id: { $in: deleted.users } },
+        { $pull: { projects: deleted._id } }
+      );
+    }
     res.status(200).json({ status: 'success', data: 'successfully deleted' });
   } catch (error) {
     res.status(400).json({ status: 'fail', error });
