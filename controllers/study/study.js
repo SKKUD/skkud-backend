@@ -1,4 +1,3 @@
-const { Types } = require('mongoose');
 const Study = require('../../models/study/Study');
 
 const getAllStudies = (req, res) => {
@@ -31,74 +30,47 @@ const getOneStudy = (req, res) => {
     });
 };
 
-const createStudy = (req, res) => {
-  const url = 'https://api.skku.dev';
-  let study;
-  if (req.files) {
-    const urlArr = [];
-    for (let i = 0; i < req.files.length; i += 1) {
-      urlArr.push(`${url}/public/${req.files[i].filename}`);
+const createStudy = async (req, res) => {
+  try {
+    const studyGroup = await Study.findById(req.params.studyGroupId);
+    if (!studyGroup) {
+      res.status(400).json({ status: 'fail', error: 'study group not found' });
     }
-    study = new Study({
+    const url = 'https://api.skku.dev';
+    const urlArr = req.files
+      ? req.files.map((file) => `${url}/public/${file.filename}`)
+      : [];
+    const study = new Study({
       ...req.body,
       images: urlArr,
     });
-  } else {
-    study = new Study(req.body);
+    const data = await study.save();
+    res.status(200).json({ status: 'success', data });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
   }
-  study.groupId = new Types.ObjectId(req.params.studyGroupId);
-  study
-    .save()
-    .then((data) => res.status(200).json({ status: 'success', data }))
-    .catch((error) =>
-      res.status(400).json({ status: 'fail', error: error.message })
-    );
 };
 
-const updateStudy = (req, res) => {
-  if (req.files) {
+const updateStudy = async (req, res) => {
+  try {
     const url = 'https://api.skku.dev';
-    const urlArr = [];
-    for (let i = 0; i < req.files.length; i += 1) {
-      urlArr.push(`${url}/public/${req.files[i].filename}`);
+    const updateProps = req.files
+      ? {
+          ...req.body,
+          images: req.files.map((file) => `${url}/public/${file.filename}`),
+        }
+      : req.body;
+    const data = await Study.findOneAndUpdate(
+      { _id: req.params.id },
+      updateProps,
+      { new: true }
+    );
+    if (!data) {
+      res.status(404).json({ status: 'fail', error: 'study not found' });
     }
-    Study.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        ...req.body,
-        images: urlArr,
-      }
-    )
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ status: 'fail', error: 'study not found' });
-          return;
-        }
-        res.status(200).json({ status: 'success', data });
-      })
-      .catch((error) =>
-        res.status(400).json({ status: 'fail', error: error.message })
-      );
-  } else {
-    const preStudy = Study.findById(req.params.id);
-    req.body.images = preStudy.images;
-    Study.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        ...req.body,
-        images: preStudy.images,
-      }
-    )
-      .then((data) => {
-        if (!data) {
-          res.status(404).json({ status: 'fail', error: 'study not found' });
-          return;
-        }
-        res.status(200).json({ status: 'success', data });
-      })
-      .catch((error) =>
-        res.status(400).json({ status: 'fail', error: error.message })
-      );
+    res.status(200).json({ status: 'success', data });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
   }
 };
 

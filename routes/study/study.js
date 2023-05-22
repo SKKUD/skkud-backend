@@ -15,13 +15,13 @@ const {
 
 router.get('/', getAllStudies);
 
-router.get('/:studyGroupId', getStudiesByStudyGroup);
+router.get('/byStudyGroup/:studyGroupId', getStudiesByStudyGroup);
 
 router.get('/:id', getOneStudy);
 
-router.post('/:studyGroupId', authorize, upload.any('images'), createStudy);
+router.post('/', authorize, upload.any('images'), createStudy);
 
-router.post('/revise/:id', authorize, upload.any('images'), updateStudy);
+router.patch('/:id', authorize, upload.any('images'), updateStudy);
 
 router.delete('/:id', authorize, deleteStudy);
 
