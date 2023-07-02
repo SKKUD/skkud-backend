@@ -37,13 +37,12 @@ const getOnePost = (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const url = 'https://api.skku.dev';
     req.body.users = req.body.initializeContributors;
     let post;
     if (req.files) {
       const urlArr = [];
       for (let i = 0; i < req.files.length; i += 1) {
-        urlArr.push(`${url}/public/${req.files[i].filename}`);
+        urlArr.push(req.files[i].location);
       }
       post = new Post({
         ...req.body,
@@ -72,9 +71,8 @@ const updatePost = async (req, res) => {
       res.status(404).json({ status: 'fail', error: 'Post Not Found' });
       return;
     }
-    const url = 'https://api.skku.dev';
     const urlArr = req.files
-      ? req.files.map((file) => `${url}/public/${file.filename}`)
+      ? req.files.map((file) => file.location)
       : post.images;
     const updatedUsers = post.users
       .map((user) => String(user))

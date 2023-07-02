@@ -36,10 +36,7 @@ const createStudy = async (req, res) => {
     if (!studyGroup) {
       res.status(400).json({ status: 'fail', error: 'study group not found' });
     }
-    const url = 'https://api.skku.dev';
-    const urlArr = req.files
-      ? req.files.map((file) => `${url}/public/${file.filename}`)
-      : [];
+    const urlArr = req.files ? req.files.map((file) => file.location) : [];
     const study = new Study({
       ...req.body,
       images: urlArr,
@@ -53,11 +50,10 @@ const createStudy = async (req, res) => {
 
 const updateStudy = async (req, res) => {
   try {
-    const url = 'https://api.skku.dev';
     const updateProps = req.files
       ? {
           ...req.body,
-          images: req.files.map((file) => `${url}/public/${file.filename}`),
+          images: req.files.map((file) => file.location),
         }
       : req.body;
     const data = await Study.findOneAndUpdate(

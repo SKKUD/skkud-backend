@@ -60,14 +60,10 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const url = 'https://api.skku.dev';
   let user;
   if (req.files) {
-    const imgUrl = `${url}/public/${req.files[0].filename}`;
-    user = new User({
-      ...req.body,
-      image: imgUrl,
-    });
+    const imgUrl = req.files[0].location;
+    user = new User({ ...req.body, image: imgUrl });
   } else {
     user = new User(req.body);
   }
