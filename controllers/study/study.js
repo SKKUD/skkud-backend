@@ -1,4 +1,5 @@
 const Study = require('../../models/study/Study');
+const StudyGroup = require('../../models/study/StudyGroup');
 
 const getAllStudies = (req, res) => {
   Study.find({})
@@ -32,7 +33,7 @@ const getOneStudy = (req, res) => {
 
 const createStudy = async (req, res) => {
   try {
-    const studyGroup = await Study.findById(req.params.studyGroupId);
+    const studyGroup = await StudyGroup.findById(req.params.studyGroupId);
     if (!studyGroup) {
       res.status(400).json({ status: 'fail', error: 'study group not found' });
     }
